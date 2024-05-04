@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 def szeddkiaszoveget(url):
-    url = "https://www.reddit.com/r/BinIchDasArschloch/comments/1cj2xa4/bida_wenn_ich_auf_meine_pause_bestehe/"
     response = requests.get(url)
 
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -18,3 +17,5 @@ def szeddkiaszoveget(url):
         return "siker"
     else:
         return "gatya"
+
+szeddkiaszoveget("https://www.reddit.com/r/BinIchDasArschloch/comments/1cj2xa4/bida_wenn_ich_auf_meine_pause_bestehe/")

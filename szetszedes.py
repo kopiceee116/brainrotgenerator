@@ -1,4 +1,4 @@
-def szetszed(text :str) -> str:
+def darabol(text :str) -> str:
     characters = ["?","!",".",",",";",":","-"]
     text = makeNewLines(text,characters)
     textv2 = ""
@@ -30,7 +30,7 @@ def breakLongLine(line: str) -> str:
             else:
                 wordpositions.append(0)
         for i in range(len(wordpositions)):
-            if wordpositions[i] > lenline*0.75:
+            if wordpositions[i] > lenline*0.75 or wordpositions[i] < lenline*0.25:
                 wordpositions[i] == 0
         returnline += f"{line[0:max(wordpositions)]}\n"
         returnline += f"{line[max(wordpositions):]}"
@@ -50,7 +50,15 @@ def removeSmallRow(text):
             bigtext += "\n"
     return bigtext
 
-    
-szoveg = """Bida wenn ich auf meine Pause bestehe?Hey, ich hab folgendes Thema und dazu die Frage Bida?Ich arbeite seit einer Zeit in einem großen Unternehmen. Die Nachtschicht Pause wird durchbezahlt, deswegen beschwer ich mich nicht, wenn ich meine Pause unterbrechen muss oder sonst was. Während der Früh oder Spätschicht in normalerweise noch jemand in der Tag Schicht da, der die Pausen der beiden Schichten übernimmt.Das funktioniert nur solange bis jemand krank ist oder im Urlaub ist. Dann muss ich jemanden suchen der meine Pause übernimmt. Dann hat mal die erste Person viel zutun und kann nicht, die zweite evtl auch und dann geht's hin und her bis jemand dann doch Zeit hat zum übernehmen.Das geht dann jeden Tag so, das ich hin und her laufe und aktiv suchen muss wer mich solange vertritt. Wenn ich niemanden Frage, kann ich auch keine Pause machen, da die Maschinellen Abläufe hier auf mein handeln angewiesen sind. Mir kommt es vor als würde ich denjenigen auf den Sack gehen mit meiner Pause. Alle machen ihre Pause und müssen niemanden dafür einspringen lassen, bei mir geht es nicht anders. Bida wenn ich jeden Tag auf meine Pause bestehe?"""
-with open("temp.txt","w",encoding="utf-8") as fajl:
-    print(szetszed(szoveg),file=fajl)
+def kiszedafajlbol(nev):
+    with open(nev,"r",encoding="utf-8") as kiszed:
+        return kiszed.read()
+
+
+def szetszedes(nev):
+    szoveg = kiszedafajlbol(nev)
+    print(szoveg)
+    with open("temp.txt","w",encoding="utf-8") as fajl:
+        print(darabol(szoveg),file=fajl)
+
+szetszedes("saved.txt")
