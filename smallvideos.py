@@ -1,6 +1,9 @@
 from moviepy.editor import *
 import wave, contextlib, os
 import random #to have random starting point in video :)
+def makeVideoFolder(whereToPutVideo):
+    if not os.path.exists(whereToPutVideo):
+        os.mkdir(whereToPutVideo)
 
 def VideoLength(videofilepath):
     bigVideo = VideoFileClip(videofilepath)
@@ -37,24 +40,35 @@ def StartandEndPoints(videoPath,audioFolderPath):
     return StartandEndPoints
 
 def makeVids(videoPath,subtitlesPath,audioFolderPath):
+    videoFolderPath="Videos"
+    makeVideoFolder(videoFolderPath)
     timeStamps = StartandEndPoints(videoPath,audioFolderPath)
     BigVideo = VideoFileClip(videoPath)
+    print("idopont es video megva")
     with open(subtitlesPath,"r",encoding="utf-8") as feliratFajl:
         feliratok = feliratFajl.read().split("\n")
+    print("feliratok megvannak")
     AudioPaths = []
     for file in os.listdir(audioFolderPath): 
         path = os.path.join(audioFolderPath,file)
         AudioPaths.append(path)
-    for sor in range(len(feliratok)):    
+    print("hangok megvannak")
+    for sor in range(len(feliratok)):
+        if not timeStamps[sor]: break
         clip = BigVideo.subclip(round(timeStamps[sor][0],2),round(timeStamps[sor][1],2))
-        audio = AudioFileClip(AudioPaths[sor])
+        
+        audio_clip = AudioFileClip(AudioPaths[sor])
+        
 
-        txt_clip = (TextClip(feliratok[sor],fontsize=16,color='white',font="Segoe-UI-Bold")
+        txt_clip = (TextClip(feliratok[sor],fontsize=30,color='white',font="Segoe-UI-Bold",stroke_color="black",stroke_width=2)
                     .set_position('center')
                     .set_duration(AudioLength(AudioPaths[sor])))
-        result = clip.set_audio(AudioPaths[sor])
-        result = CompositeVideoClip([clip, txt_clip]) # Overlay text on video
-        result.write_videofile(f"video{sor+1}.mp4",fps=25,audio_codec="aac") # Many options...
-    
+        print("hangot ra")
+        result = clip.set_audio(audio_clip)
+        print("szoveget ra")
+        gecimar = CompositeVideoClip([result, txt_clip]) 
+        print("fajlba be")
+        gecimar.write_videofile(os.path.join(videoFolderPath,f"video{sor+1}.mp4"),fps=24,audio_codec="aac", logger=None)
 
-makeVids('BackgroundVid.mp4','split.txt','hang')
+
+makeVids('BgVid2.mp4','split.txt','hang')
