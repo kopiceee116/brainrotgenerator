@@ -14,13 +14,14 @@ def hangkeszites(fajlnev):
 
     with open(fajlnev,"r",encoding="utf-8") as fajl:
         szoveg = fajl.read()
-        i=1
+    i=1
 
     for line in szoveg.split("\n"):
         if len(line) <3:
             continue
         else:
-            tts.tts_to_file(text=line, file_path=os.path.join(home_dir, "hang",f"sor{i}.wav"))
+            displayi = i
+            if displayi < 10:
+                displayi = f"0{i}"
+            tts.tts_to_file(text=line, file_path=os.path.join(home_dir, "hang",f"{displayi}.wav"))
             i+=1
-
-hangkeszites(szetszedes.szetszedes(karcolas.szeddkiaszoveget("https://www.reddit.com/r/BinIchDasArschloch/comments/1cj2xa4/bida_wenn_ich_auf_meine_pause_bestehe/")))

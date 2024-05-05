@@ -49,26 +49,25 @@ def makeVids(videoPath,subtitlesPath,audioFolderPath):
         feliratok = feliratFajl.read().split("\n")
     print("feliratok megvannak")
     AudioPaths = []
-    for file in os.listdir(audioFolderPath): 
+    AudioFiles = sorted(os.listdir(audioFolderPath))
+    for file in AudioFiles: 
         path = os.path.join(audioFolderPath,file)
         AudioPaths.append(path)
     print("hangok megvannak")
     for sor in range(len(feliratok)):
-        if not timeStamps[sor]: break
+        if sor == len(timeStamps): break
         clip = BigVideo.subclip(round(timeStamps[sor][0],2),round(timeStamps[sor][1],2))
         
         audio_clip = AudioFileClip(AudioPaths[sor])
-        
+        print(sor)
+        print(AudioPaths[sor])
 
         txt_clip = (TextClip(feliratok[sor],fontsize=30,color='white',font="Segoe-UI-Bold",stroke_color="black",stroke_width=2)
                     .set_position('center')
                     .set_duration(AudioLength(AudioPaths[sor])))
-        print("hangot ra")
         result = clip.set_audio(audio_clip)
-        print("szoveget ra")
         gecimar = CompositeVideoClip([result, txt_clip]) 
-        print("fajlba be")
-        gecimar.write_videofile(os.path.join(videoFolderPath,f"video{sor+1}.mp4"),fps=24,audio_codec="aac", logger=None)
-
-
-makeVids('BgVid2.mp4','split.txt','hang')
+        displaynum = sor+1
+        if displaynum < 10:
+            displaynum = f"0{displaynum}"
+        gecimar.write_videofile(os.path.join(videoFolderPath,f"{displaynum}.mp4"),fps=24,audio_codec="aac", logger=None)
