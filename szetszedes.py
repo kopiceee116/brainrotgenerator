@@ -57,8 +57,9 @@ def kiszedafajlbol(nev):
 
 def szetszedes(nev):
     szoveg = kiszedafajlbol(nev)
+    keszFajlNev = "split.txt"
     print(szoveg)
-    with open("temp.txt","w",encoding="utf-8") as fajl:
+    with open(keszFajlNev,"w",encoding="utf-8") as fajl:
         print(darabol(szoveg),file=fajl)
+    return keszFajlNev
 
-szetszedes("saved.txt")

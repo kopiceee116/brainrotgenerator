@@ -14,8 +14,6 @@ def szeddkiaszoveget(url):
         with open("saved.txt","w",encoding="utf-8") as fajl:
             fajl.write(f"{h1_contents} ")
             fajl.write(div_contents.replace("\n",""))
-        return "siker"
+        return "saved.txt"
     else:
-        return "gatya"
-
-szeddkiaszoveget("https://www.reddit.com/r/BinIchDasArschloch/comments/1cj2xa4/bida_wenn_ich_auf_meine_pause_bestehe/")
+        return None
