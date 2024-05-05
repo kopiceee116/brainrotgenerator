@@ -26,7 +26,7 @@ def findStartingPoint(videoPath :str,audioFolderPath :str) -> int:
     return 100
     return random.randint(1,round(VideoLength(videoPath) - totalAuidoLength(audioFolderPath) - 10))
 
-def startandEndLengths(videoPath,audioFolderPath):
+def StartandEndPoints(videoPath,audioFolderPath):
     startingPoint = findStartingPoint(videoPath,audioFolderPath)
     StartandEndPoints = []
     print(startingPoint)    
@@ -35,15 +35,27 @@ def startandEndLengths(videoPath,audioFolderPath):
         endpoint = round(startingPoint+AudioLength(path),1)
         StartandEndPoints.append((startingPoint,endpoint))
         startingPoint = round(endpoint+0.1, 1)
-    print(StartandEndPoints)
-        
+    return StartandEndPoints
 
-print(startandEndLengths('BackgroundVid.mp4','hang'))    
+def makeVids(videoPath,subtitlesPath,audioFolderPath):
+    timeStamps = StartandEndPoints(videoPath,audioFolderPath)
+    BigVideo = VideoFileClip(videoPath)
+    with open(subtitlesPath,"r",encoding="utf-8") as feliratFajl:
+        feliratok = feliratFajl.read().split("\n")
+    AudioPaths = []
+    for file in os.listdir(audioFolderPath): 
+        path = os.path.join(audioFolderPath,file)
+        AudioPaths.append(path)
+    for sor in range(len(feliratok)):    
+        clip = BigVideo.subclip(timeStamps[sor][0],timeStamps[sor][1])
+        audio = AudioFileClip(AudioPaths[sor])
 
-# Make the text. Many more options are available.
-# txt_clip = ( TextClip("My Holidays 2013",fontsize=70,color='white')
-#              .set_position('center')
-#              .set_duration(10) )
+        txt_clip = (TextClip(feliratok[sor],fontsize=16,color='white',font="Segoe-UI-Bold")
+                    .set_position('center')
+                    .set_duration(AudioLength(AudioPaths[sor])))
+        result = clip.set_audio(AudioPaths[sor])
+        result = CompositeVideoClip([clip, txt_clip]) # Overlay text on video
+        result.write_videofile(f"video{sor+1}.mp4",fps=25,audio_codec="aac") # Many options...
+    
 
-# result = CompositeVideoClip([video, txt_clip]) # Overlay text on video
-# result.write_videofile("myHolidays_edited.mp4",fps=25) # Many options...
+makeVids('BackgroundVid.mp4','split.txt','hang')
