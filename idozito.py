@@ -19,11 +19,10 @@ def totalAuidoLength(folder :str) -> float:
     for file in os.listdir(folder): 
         path = os.path.join(folder,file)
         TotalTimeTalking+=AudioLength(path)
-
-    return round(TotalTimeTalking,1)
+    print(TotalTimeTalking)
+    return round(TotalTimeTalking,2)
 
 def findStartingPoint(videoPath :str,audioFolderPath :str) -> int:
-    return 100
     return random.randint(1,round(VideoLength(videoPath) - totalAuidoLength(audioFolderPath) - 10))
 
 def StartandEndPoints(videoPath,audioFolderPath):
@@ -34,7 +33,7 @@ def StartandEndPoints(videoPath,audioFolderPath):
         path = os.path.join(audioFolderPath,file)
         endpoint = round(startingPoint+AudioLength(path),1)
         StartandEndPoints.append((startingPoint,endpoint))
-        startingPoint = round(endpoint+0.1, 1)
+        startingPoint = round(endpoint+0.01, 2)
     return StartandEndPoints
 
 def makeVids(videoPath,subtitlesPath,audioFolderPath):
@@ -47,7 +46,7 @@ def makeVids(videoPath,subtitlesPath,audioFolderPath):
         path = os.path.join(audioFolderPath,file)
         AudioPaths.append(path)
     for sor in range(len(feliratok)):    
-        clip = BigVideo.subclip(timeStamps[sor][0],timeStamps[sor][1])
+        clip = BigVideo.subclip(round(timeStamps[sor][0],2),round(timeStamps[sor][1],2))
         audio = AudioFileClip(AudioPaths[sor])
 
         txt_clip = (TextClip(feliratok[sor],fontsize=16,color='white',font="Segoe-UI-Bold")
