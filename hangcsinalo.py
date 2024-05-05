@@ -1,7 +1,5 @@
 from TTS.api import TTS
-import torch
-import os
-import pathlib
+import torch, os, pathlib
 import szetszedes, karcolas
 
 def hangkeszites(fajlnev):

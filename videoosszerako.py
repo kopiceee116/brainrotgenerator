@@ -1,9 +1,7 @@
 from moviepy.editor import *
-import wave
-import contextlib
-import os
+import wave, contextlib, os
 
-def vido(videofilepath):
+def VideoLength(videofilepath):
     bigVideo = VideoFileClip(videofilepath)
     BigVideoLength = bigVideo.duration
     return(BigVideoLength)
@@ -15,15 +13,22 @@ def AudioLength(filename):
         duration = frames / float(rate)
         return round(duration+0.02,2)
 
-def totalAuidoLength(folder):
+def totalAuidoLength(folder :str) -> float:
     TotalTimeTalking = 0
     for file in os.listdir(folder): 
         path = os.path.join(folder,file)
         TotalTimeTalking+=AudioLength(path)
 
-    return TotalTimeTalking
+    return round(TotalTimeTalking,2)
 
 print(totalAuidoLength("hang"))
+
+def findStartingPoint(videoPath :str,audioFolderPath :str) -> int:
+    return round(VideoLength(videoPath) - totalAuidoLength(audioFolderPath) - 10)
+
+print(findStartingPoint('BackgroundVid.mp4','hang'))
+
+
 # Make the text. Many more options are available.
 # txt_clip = ( TextClip("My Holidays 2013",fontsize=70,color='white')
 #              .set_position('center')
