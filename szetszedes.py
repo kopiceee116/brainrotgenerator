@@ -36,26 +36,26 @@ def breakLongLine(line: str) -> str:
         returnline += f"{line[max(wordpositions):]}"
         return returnline
 
-def removeSmallRow(text):
-    splittext = [text.split("\n")]
+def removeSmallRow(text :str) -> str:
+    splittext = text.split("\n")
     for line in range(len(splittext)):
         if len(splittext[line])< 3:
             splittext[line-1] += splittext[line]
             splittext[line] == 0
     bigtext = ""
-    for i in splittext[0]:
+    for i in splittext:
         print(i)
         if len(i) > 1:
             bigtext += i
             bigtext += "\n"
     return bigtext
 
-def kiszedafajlbol(nev):
+def kiszedafajlbol(nev :str) -> str:
     with open(nev,"r",encoding="utf-8") as kiszed:
         return kiszed.read()
 
 
-def szetszedes(nev):
+def szetszedes(nev) -> str:
     szoveg = kiszedafajlbol(nev)
     keszFajlNev = "split.txt"
     print(szoveg)
