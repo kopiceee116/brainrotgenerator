@@ -10,7 +10,7 @@ def hangkeszites(fajlnev):
         os.mkdir(audioOutPath)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    tts = TTS(model_name="tts_models/de/thorsten/tacotron2-DDC", progress_bar=False).to(device)
+    tts = TTS(model_name="tts_models/en/jenny/jenny", progress_bar=False).to(device)
 
     with open(fajlnev,"r",encoding="utf-8") as fajl:
         szoveg = fajl.read()
@@ -25,3 +25,5 @@ def hangkeszites(fajlnev):
                 displayi = f"0{i}"
             tts.tts_to_file(text=line, file_path=os.path.join(home_dir, "hang",f"{displayi}.wav"))
             i+=1
+
+hangkeszites("split.txt")

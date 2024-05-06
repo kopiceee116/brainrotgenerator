@@ -2,10 +2,12 @@ import cleanup
 import smallvideos, finalvideo
 import hangcsinalo
 import szetszedes, karcolas
-
-url = input("reddit link ")
-
-hangcsinalo.hangkeszites(szetszedes.szetszedes(karcolas.szeddkiaszoveget(url))) #only german voice because i didnt find english 
+video_path = input("Background video path: \n")
+url = input("reddit link: ")
+words_to_split_at = input("words to split at SEPARATED BY SPACE: \n").split(" ")
+subtitles_and_sounds_path = szetszedes.szetszedes(karcolas.szeddkiaszoveget(url),words_to_split_at)
+input("press enter after revising split.txt")
+hangcsinalo.hangkeszites(subtitles_and_sounds_path) #only german voice because i didnt find english 
 smallvideos.makeVids('BgVid2.mp4','split.txt','hang') #change bigvid2.mp4 to your background video :) 
 finalvideo.concatenate_videos(finalvideo.getVideoFiles("Videos"), 'output.mp4')
 
@@ -14,17 +16,16 @@ cleanup.RemoveFolder('Videos')
 cleanup.RemoveFile('saved.txt')
 cleanup.RemoveFile("split.txt")
 
+#words to split at for german
+# ["und", "sondern", "oder", "dann", "aber", "trotzdem", "weil", "ob", "obwohl", "denn", "dass"]
+
+
 # found tts models :)
 
 #  1: tts_models/multilingual/multi-dataset/xtts_v2
 #  2: tts_models/multilingual/multi-dataset/xtts_v1.1
 #  3: tts_models/multilingual/multi-dataset/your_tts
 #  4: tts_models/multilingual/multi-dataset/bark
-#  5: tts_models/bg/cv/vits
-#  6: tts_models/cs/cv/vits
-#  7: tts_models/da/cv/vits
-#  8: tts_models/et/cv/vits
-#  9: tts_models/ga/cv/vits
 #  10: tts_models/en/ek1/tacotron2
 #  11: tts_models/en/ljspeech/tacotron2-DDC
 #  12: tts_models/en/ljspeech/tacotron2-DDC_ph
@@ -45,47 +46,10 @@ cleanup.RemoveFile("split.txt")
 #  27: tts_models/en/jenny/jenny
 #  28: tts_models/es/mai/tacotron2-DDC
 #  29: tts_models/es/css10/vits
-#  30: tts_models/fr/mai/tacotron2-DDC
-#  31: tts_models/fr/css10/vits
 #  32: tts_models/uk/mai/glow-tts
 #  33: tts_models/uk/mai/vits
-#  34: tts_models/zh-CN/baker/tacotron2-DDC-GST
-#  35: tts_models/nl/mai/tacotron2-DDC
-#  36: tts_models/nl/css10/vits
-#  37: tts_models/de/thorsten/tacotron2-DCA
-#  38: tts_models/de/thorsten/vits
-#  39: tts_models/de/thorsten/tacotron2-DDC
-#  40: tts_models/de/css10/vits-neon
-#  41: tts_models/ja/kokoro/tacotron2-DDC
-#  42: tts_models/tr/common-voice/glow-tts
-#  43: tts_models/it/mai_female/glow-tts
-#  44: tts_models/it/mai_female/vits
-#  45: tts_models/it/mai_male/glow-tts
-#  46: tts_models/it/mai_male/vits
-#  47: tts_models/ewe/openbible/vits
-#  48: tts_models/hau/openbible/vits
-#  49: tts_models/lin/openbible/vits
-#  50: tts_models/tw_akuapem/openbible/vits
-#  51: tts_models/tw_asante/openbible/vits
-#  52: tts_models/yor/openbible/vits
 #  53: tts_models/hu/css10/vits
-#  54: tts_models/el/cv/vits
-#  55: tts_models/fi/css10/vits
-#  56: tts_models/hr/cv/vits
-#  57: tts_models/lt/cv/vits
-#  58: tts_models/lv/cv/vits
-#  59: tts_models/mt/cv/vits
-#  60: tts_models/pl/mai_female/vits
-#  61: tts_models/pt/cv/vits
-#  62: tts_models/ro/cv/vits
-#  63: tts_models/sk/cv/vits
-#  64: tts_models/sl/cv/vits
-#  65: tts_models/sv/cv/vits
-#  66: tts_models/ca/custom/vits
-#  67: tts_models/fa/custom/glow-tts
-#  68: tts_models/bn/custom/vits-male
-#  69: tts_models/bn/custom/vits-female
-#  70: tts_models/be/common-voice/glow-tts
+
 
 #  Name format: type/language/dataset/model
 #  1: vocoder_models/universal/libri-tts/wavegrad
@@ -96,11 +60,3 @@ cleanup.RemoveFile("split.txt")
 #  7: vocoder_models/en/blizzard2013/hifigan_v2
 #  8: vocoder_models/en/vctk/hifigan_v2
 #  9: vocoder_models/en/sam/hifigan_v2
-#  10: vocoder_models/nl/mai/parallel-wavegan
-#  11: vocoder_models/de/thorsten/wavegrad
-#  12: vocoder_models/de/thorsten/fullband-melgan
-#  13: vocoder_models/de/thorsten/hifigan_v1
-#  14: vocoder_models/ja/kokoro/hifigan_v1
-#  15: vocoder_models/uk/mai/multiband-melgan
-#  16: vocoder_models/tr/common-voice/hifigan
-#  17: vocoder_models/be/common-voice/hifigan

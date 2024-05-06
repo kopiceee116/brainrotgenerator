@@ -9,7 +9,7 @@ def szeddkiaszoveget(url):
     h1_element = soup.find('h1')
 
     if h1_element and div_element:
-        div_contents = div_element.text.strip()
+        div_contents = div_element.text.strip().replace('"',"").replace("'","")
         h1_contents = h1_element.text.strip()
         with open("saved.txt","w",encoding="utf-8") as fajl:
             fajl.write(f"{h1_contents} ")

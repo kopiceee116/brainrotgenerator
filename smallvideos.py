@@ -62,12 +62,20 @@ def makeVids(videoPath,subtitlesPath,audioFolderPath):
         print(sor)
         print(AudioPaths[sor])
 
-        txt_clip = (TextClip(feliratok[sor],fontsize=30,color='white',font="Segoe-UI-Bold",stroke_color="black",stroke_width=2)
+        txt_clip = (TextClip(feliratok[sor],fontsize=(70-(feliratok[sor].__len__()//2)),color='white',font="Segoe-UI-Bold",stroke_color="black",stroke_width=2)
                     .set_position('center')
                     .set_duration(AudioLength(AudioPaths[sor])))
+        
         result = clip.set_audio(audio_clip)
         gecimar = CompositeVideoClip([result, txt_clip]) 
+        video_width, video_height = gecimar.size
+        target_height = video_width
+        scaling_factor = target_height / video_height
+        gecimar = gecimar.resize(height=target_height)
+        
         displaynum = sor+1
         if displaynum < 10:
             displaynum = f"0{displaynum}"
         gecimar.write_videofile(os.path.join(videoFolderPath,f"{displaynum}.mp4"),fps=24,audio_codec="aac", logger=None)
+
+makeVids('BgVid2.mp4','split.txt','hang')

@@ -24,3 +24,5 @@ def concatenate_videos(video_files, output_file):
     
     # Remove the temporary file
     os.remove('filelist.txt')
+
+concatenate_videos(getVideoFiles("Videos"), 'output.mp4')
